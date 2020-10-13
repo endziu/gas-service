@@ -10,24 +10,24 @@ const template = require('./template.js')
 const wrap = fn => (...args) => fn(...args).catch(args[2])
 const tail = (arr) => arr.slice(1)
 
-let data = [[],[],[],[]]
+let data = [[],[],[]]
 let current = []
 
 const scrape = async (address) => {
   const page = await fetch(address)
   const text = await page.text()
   const $ = cheerio.load(text)
-  const ids = ['#fastest', '#fast', '#avg', '#cheap']
+  const ids = ['#spanHighPrice', '#spanAvgPrice', '#spanLowPrice']
   const values = ids
     .map( id => $(id).parent().text().replace(/\s/g, "") )
-    .map( s => s.substring(s.indexOf('(')+1,s.indexOf(')')) )
+    //.map( s => s.substring(s.indexOf('(')+1,s.indexOf(')')) )
     .map( s => Number(s.replace(/[^0-9.]/g, '')) )
-  values[4] = Date.now()
+  values[3] = Date.now()
   return values
 }
 
 const main = async () => {
-  current = await scrape('https://ethgasstation.info/calculatorTxV.php')
+  current = await scrape('https://etherscan.io/gastracker')
 
   if (data[0].length > 59) {
     data = data.map(a => tail(a))
@@ -36,7 +36,6 @@ const main = async () => {
   data[0].push(current[0])
   data[1].push(current[1])
   data[2].push(current[2])
-  data[3].push(current[3])
 }
 
 main()

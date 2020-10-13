@@ -83,20 +83,16 @@ ${style}
     <th class="border-dashed text-center p-2 bold">Price</th>
   </tr>
   <tr>
-    <td class="border-dashed text-center p-2 fs-3">🚀</td>
-    <td class="border-dashed text-center p-2 fs-3" id="instant">${values[0]} Gwei</td>
+    <td class="border-dashed text-center p-2">🚀</td>
+    <td class="border-dashed text-center p-2" id="instant">${values[0]} Gwei</td>
   </tr>
   <tr>
-    <td class="border-dashed text-center p-2 fs-3">🏎️</td>
-    <td class="border-dashed text-center p-2 fs-3" id="fast">${values[1]} Gwei</td>
+    <td class="border-dashed text-center p-2">🏎️</td>
+    <td class="border-dashed text-center p-2" id="fast">${values[1]} Gwei</td>
   </tr>
   <tr>
-    <td class="border-dashed text-center p-2 fs-3">🚊</td>
-    <td class="border-dashed text-center p-2 fs-3" id="average">${values[2]} Gwei</td>
-  </tr>
-  <tr>
-    <td class="border-dashed text-center p-2 fs-3">🚲</td>
-    <td class="border-dashed text-center p-2 fs-3" id="cheap">${values[3]} Gwei</td>
+    <td class="border-dashed text-center p-2">🚊</td>
+    <td class="border-dashed text-center p-2" id="average">${values[2]} Gwei</td>
   </tr>
   </table>
 </div>
