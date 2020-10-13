@@ -36,6 +36,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 .fs-2 { font-size: 1rem; }
 .fs-3 { font-size: 2rem; }
 .fs-4 { font-size: 3rem; }
+.bold { font-weight: bold; }
 .text-center { text-align: center; }
 .p-1 { padding: 0.5rem; }
 .p-2 { padding: 1rem; }
@@ -55,9 +56,9 @@ table { border-collapse: collapse; border-spacing: 0; }
     rgba(0, 0, 0, 0.1) 0px 0px 8px 0px,
     rgba(0, 0, 0, 0.2) 0px 20px 30px 0px;
 }
-.transition { transition: transform 1s; }
+.transition { transition: all 1s; }
 .bg-gray { background: #efefef; }
-div:hover { transform: rotateY(0); }
+.main:hover { transform: rotateY(0); box-shadow: none; transform: scale(1.1) }
 </style>`
 
 const template = (values) => `
@@ -69,19 +70,19 @@ const template = (values) => `
   <title>title</title>
 </head>
 ${style}
-<body>
+<body class="bg-light-gray">
 <h1 class="text-center m-3">
   <svg viewBox="0 0 20 20" width="48px" stroke="black" stroke-width="1" fill="black" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <path d="M13,18 L13,1.99079514 C13,0.898212381 12.1007504,0 10.9914698,0 L3.0085302,0 C1.90195036,0 1,0.891309342 1,1.99079514 L1,18 L0,18 L0,20 L14,20 L14,18 L13,18 Z M3,2 L11,2 L11,8 L3,8 L3,2 Z M13,10 L13.9989566,10 C15.1041023,10 16,10.8982606 16,11.9979131 L16,15.009222 C16,15.5564136 16.4438648,16 17,16 C17.5522847,16 18,15.5490248 18,15.009222 L18,10 L16,8 L16,6 L14,4 L15,3 L20,8 L20,14.9996703 C20,16.6567066 18.6534829,18 17,18 C15.3431458,18 14,16.6534829 14,15 L14,12 L13,12 L13,10 Z" id="Combined-Shape"></path>
   </svg>
 </h1>
-<div class="bg-gray block-center fitToContent skew transition shadow">
+<div class="main bg-gray block-center fitToContent skew transition shadow">
   <table class="fs-3 sans-serif near-black">
   <tr>
-    <th class="border-dashed text-center p-2">Speed</th>
-    <th class="border-dashed text-center p-2">Price</th>
+    <th class="border-dashed text-center p-2 bold">Speed</th>
+    <th class="border-dashed text-center p-2 bold">Price</th>
   </tr>
-  <tr class="p-2">
+  <tr>
     <td class="border-dashed text-center p-2 fs-3">🚀</td>
     <td class="border-dashed text-center p-2 fs-3" id="instant">${values[0]} Gwei</td>
   </tr>
@@ -99,7 +100,7 @@ ${style}
   </tr>
   </table>
 </div>
-<p id="timer" class="text-center">...</p>
+<p id="timer" class="text-center sans-serif fs-1 m-3">last update: just now.</p>
 <script type="text/javascript">
   function getCurrentData() {
     fetch('http://18.192.6.19/current')
@@ -109,10 +110,9 @@ ${style}
         document.getElementById("fast").innerText = data[1] + " Gwei" || "~"
         document.getElementById("average").innerText = data[2] + " Gwei" || "~"
         document.getElementById("cheap").innerText = data[3] + " Gwei" || "~"
-        document.getElementById("timer").innerText = "last update: " + new Date(data[4]).toTimeString().substring(0,8)
+        document.getElementById("timer").innerText = "last update: " + new Date(data[4]).toLocaleTimeString()
       })
   }
-  getCurrentData()
   setInterval(getCurrentData,60000)
 </script>
 </body>
