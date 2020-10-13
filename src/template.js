@@ -1,5 +1,4 @@
-style = `
-<style>
+style = `<style>
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -59,11 +58,18 @@ table { border-collapse: collapse; border-spacing: 0; }
 .transition { transition: transform 1s; }
 .bg-gray { background: #efefef; }
 div:hover { transform: rotateY(0); }
-</style>
-`
+</style>`
 
 const template = (values) => `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>title</title>
+</head>
 ${style}
+<body>
 <h1 class="text-center m-3">
   <svg viewBox="0 0 20 20" width="48px" stroke="black" stroke-width="1" fill="black" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <path d="M13,18 L13,1.99079514 C13,0.898212381 12.1007504,0 10.9914698,0 L3.0085302,0 C1.90195036,0 1,0.891309342 1,1.99079514 L1,18 L0,18 L0,20 L14,20 L14,18 L13,18 Z M3,2 L11,2 L11,8 L3,8 L3,2 Z M13,10 L13.9989566,10 C15.1041023,10 16,10.8982606 16,11.9979131 L16,15.009222 C16,15.5564136 16.4438648,16 17,16 C17.5522847,16 18,15.5490248 18,15.009222 L18,10 L16,8 L16,6 L14,4 L15,3 L20,8 L20,14.9996703 C20,16.6567066 18.6534829,18 17,18 C15.3431458,18 14,16.6534829 14,15 L14,12 L13,12 L13,10 Z" id="Combined-Shape"></path>
@@ -72,24 +78,24 @@ ${style}
 <div class="bg-gray block-center fitToContent skew transition shadow">
   <table class="fs-3 sans-serif near-black">
   <tr>
-    <th class="border-dashed text-center p-2">speed</th>
-    <th class="border-dashed text-center p-2">price</th>
+    <th class="border-dashed text-center p-2">Speed</th>
+    <th class="border-dashed text-center p-2">Price</th>
   </tr>
   <tr class="p-2">
-    <td class="border-dashed text-center p-2 fs-2">🚀</td>
-    <td class="border-dashed text-center p-2 fs-2" id="instant">${values[0]} Gwei</td>
+    <td class="border-dashed text-center p-2 fs-3">🚀</td>
+    <td class="border-dashed text-center p-2 fs-3" id="instant">${values[0]} Gwei</td>
   </tr>
   <tr>
-    <td class="border-dashed text-center p-2 fs-2">🏎️</td>
-    <td class="border-dashed text-center p-2 fs-2" id="fast">${values[1]} Gwei</td>
+    <td class="border-dashed text-center p-2 fs-3">🏎️</td>
+    <td class="border-dashed text-center p-2 fs-3" id="fast">${values[1]} Gwei</td>
   </tr>
   <tr>
-    <td class="border-dashed text-center p-2 fs-2">🚊</td>
-    <td class="border-dashed text-center p-2 fs-2" id="average">${values[2]} Gwei</td>
+    <td class="border-dashed text-center p-2 fs-3">🚊</td>
+    <td class="border-dashed text-center p-2 fs-3" id="average">${values[2]} Gwei</td>
   </tr>
   <tr>
-    <td class="border-dashed text-center p-2 fs-2">🚲</td>
-    <td class="border-dashed text-center p-2 fs-2" id="cheap">${values[3]} Gwei</td>
+    <td class="border-dashed text-center p-2 fs-3">🚲</td>
+    <td class="border-dashed text-center p-2 fs-3" id="cheap">${values[3]} Gwei</td>
   </tr>
   </table>
 </div>
@@ -103,9 +109,13 @@ ${style}
         document.getElementById("fast").innerText = data[1] + " Gwei" || "~"
         document.getElementById("average").innerText = data[2] + " Gwei" || "~"
         document.getElementById("cheap").innerText = data[3] + " Gwei" || "~"
+        document.getElementById("timer").innerText = "last update: " + new Date(data[4]).toTimeString().substring(0,8)
       })
   }
+  getCurrentData()
   setInterval(getCurrentData,60000)
 </script>
+</body>
+</html>
 `
 module.exports = template;

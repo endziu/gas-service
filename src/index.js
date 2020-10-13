@@ -18,13 +18,13 @@ const gatherData = async () => {
   const text = await page.text()
   const $ = cheerio.load(text)
   const ids = ['#fastest', '#fast', '#avg', '#cheap']
-  const prices = ids
+  values = ids
     .map( id => $(id).parent().text().replace(/\s/g, "") )
     .map( s => ({ [s.substring(0,s.indexOf('('))]: s.substring(s.indexOf('(')+1,s.indexOf(')')) }) )
-    .reduce( (prev,curr) => Object.assign(prev,curr),{} )
-
-  values = Object.values(prices).map(s => Number(s.replace(/[^0-9.]/g, '')))
-
+    .map(o => Object.values(o))
+    .map(a => a[0])
+    .map(s => Number(s.replace(/[^0-9.]/g, '')))
+  values[4] = Date.now()
   if (data[0].length > 59) {
     data = data.map(a => tail(a))
   }
