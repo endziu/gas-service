@@ -10,47 +10,46 @@ const template = require('./template.js')
 const wrap = fn => (...args) => fn(...args).catch(args[2])
 const tail = (arr) => arr.slice(1)
 
-let data = [[],[],[]]
-let current = []
+let data = {
+  etherscan: [[],[],[]],
+  etherscan_current: []
+}
 
-const scrape = async (address) => {
+const extractPageData = async (address, selectors) => {
   const page = await fetch(address)
   const text = await page.text()
   const $ = cheerio.load(text)
-  const ids = ['#spanHighPrice', '#spanAvgPrice', '#spanLowPrice']
-  const values = ids
-    .map( id => $(id).parent().text().replace(/\s/g, "") )
-    //.map( s => s.substring(s.indexOf('(')+1,s.indexOf(')')) )
-    .map( s => Number(s.replace(/[^0-9.]/g, '')) )
+  const values = selectors.map( id => $(id).parent().text().replace(/\s/g, "") )
+                          .map( s => Number(s.replace(/[^0-9.]/g, '')) )
+                       // .map( x => {console.log(x);return x;} )
   values[3] = Date.now()
   return values
 }
 
 const main = async () => {
-  current = await scrape('https://etherscan.io/gastracker')
+  data.etherscan_current = await extractPageData(
+    'https://etherscan.io/gastracker',
+    ['#spanHighPrice', '#spanAvgPrice', '#spanLowPrice']
+  )
 
-  if (data[0].length > 59) {
-    data = data.map(a => tail(a))
+  if (data.etherscan[0].length > 59) {
+    data.etherscan = data.etherscan.map(a => tail(a))
   }
 
-  data[0].push(current[0])
-  data[1].push(current[1])
-  data[2].push(current[2])
+  data.etherscan[0].push(data.etherscan_current[0])
+  data.etherscan[1].push(data.etherscan_current[1])
+  data.etherscan[2].push(data.etherscan_current[2])
 }
 
 main()
 setInterval(main, 60000)
 
 app.get('/', wrap(async (req,res) => {
-  res.send(template(current))
+  res.send(template(data.etherscan_current))
 }))
 
 app.get('/history', wrap(async (req, res) => {
   res.json(data)
-}))
-
-app.get('/current', wrap(async (req, res) => {
-  res.json(current)
 }))
 
 app.listen(3000)

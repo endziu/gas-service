@@ -84,29 +84,28 @@ ${style}
   </tr>
   <tr>
     <td class="border-dashed text-center p-2">🚀</td>
-    <td class="border-dashed text-center p-2" id="instant">${values[0]} Gwei</td>
+    <td class="border-dashed text-center p-2" id="fast">${values[0]} Gwei</td>
   </tr>
   <tr>
     <td class="border-dashed text-center p-2">🏎️</td>
-    <td class="border-dashed text-center p-2" id="fast">${values[1]} Gwei</td>
+    <td class="border-dashed text-center p-2" id="average">${values[1]} Gwei</td>
   </tr>
   <tr>
     <td class="border-dashed text-center p-2">🚊</td>
-    <td class="border-dashed text-center p-2" id="average">${values[2]} Gwei</td>
+    <td class="border-dashed text-center p-2" id="cheap">${values[2]} Gwei</td>
   </tr>
   </table>
 </div>
 <p id="timer" class="text-center sans-serif fs-1 m-3">last update: just now.</p>
 <script type="text/javascript">
   function getCurrentData() {
-    fetch('http://18.192.6.19/current')
+    fetch('http://18.192.6.19/history')
       .then(response => response.json())
       .then(data => {
-        document.getElementById("instant").innerText = data[0] + " Gwei" || "~"
-        document.getElementById("fast").innerText = data[1] + " Gwei" || "~"
-        document.getElementById("average").innerText = data[2] + " Gwei" || "~"
-        document.getElementById("cheap").innerText = data[3] + " Gwei" || "~"
-        document.getElementById("timer").innerText = "last update: " + new Date(data[4]).toLocaleTimeString()
+        document.getElementById("fast").innerText = data.etherscan_current[0] + " Gwei" || "~"
+        document.getElementById("average").innerText = data.etherscan_current[1] + " Gwei" || "~"
+        document.getElementById("cheap").innerText = data.etherscan_current[2] + " Gwei" || "~"
+        document.getElementById("timer").innerText = "last update: " + new Date(data.etherscan_current[3]).toLocaleTimeString()
       })
   }
   setInterval(getCurrentData,60000)
