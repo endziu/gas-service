@@ -6,6 +6,7 @@ app.use(compression())
 
 const cheerio = require('cheerio')
 const template = require('./template.js')
+const { ETHERSCAN_APIKEY } = require('../config.js')
 
 const wrap = fn => (...args) => fn(...args).catch(args[2])
 const tail = (arr) => arr.slice(1)
@@ -22,66 +23,54 @@ let data = {
   timestamp: 0
 }
 
-const extractPageData = async (address, selectors) => {
-  const page = await fetch(address)
-  const text = await page.text()
-  const $ = cheerio.load(text)
-  const values = selectors.map( id => $(id).parent().text().replace(/\s/g, "") )
-                          .map( s => Number(s.replace(/[^0-9.]/g, '')) )
-                       // .map( x => {console.log(x);return x;} )
-  return values
+const getGasInfo = async (address, fields, path) => {
+  const response = await fetch(address)
+  const body = await response.json()
+  return [
+    path ? body[path][fields[0]] : body[fields[0]],
+    path ? body[path][fields[1]] : body[fields[1]],
+    path ? body[path][fields[2]] : body[fields[2]]
+  ].map(Math.round)
+}
+
+const update = (name) => {
+  if (data[name][0].length > 59) {
+    data[name] = data[name].map(a => tail(a))
+  }
+  data[name][0].push(data[name+"_current"][0])
+  data[name][1].push(data[name+"_current"][1])
+  data[name][2].push(data[name+"_current"][2])
 }
 
 const main = async () => {
-  data.etherscan_current = await extractPageData(
-    'https://etherscan.io/gastracker',
-    ['#spanHighPrice', '#spanAvgPrice', '#spanLowPrice']
-  )
-
-  const poa = await fetch('https://gasprice.poa.network/')
-  const poaJson = await poa.json()
-  data.poaNetwork_current = [poaJson.fast, poaJson.standard, poaJson.slow].map(Math.round)
-
-  const myCrypto = await fetch('https://gas.mycryptoapi.com/')
-  const myCryptoJson = await myCrypto.json()
-  data.myCrypto_current = [myCryptoJson.fast, myCryptoJson.standard, myCryptoJson.safeLow].map(Math.round)
-
-  const upvest = await fetch('https://fees.upvest.co/estimate_eth_fees')
-  const upvestJson = await upvest.json()
-  data.upvest_current = [upvestJson.estimates.fast, upvestJson.estimates.medium, upvestJson.estimates.slow].map(Math.round)
-
-  if (data.etherscan[0].length > 59) {
-    data.etherscan = data.etherscan.map(a => tail(a))
-  }
-
-  data.etherscan[0].push(data.etherscan_current[0])
-  data.etherscan[1].push(data.etherscan_current[1])
-  data.etherscan[2].push(data.etherscan_current[2])
-
-  if (data.poaNetwork[0].length > 59) {
-    data.poaNetwork = data.poaNetwork.map(a => tail(a))
-  }
-
-  data.poaNetwork[0].push(data.poaNetwork_current[0])
-  data.poaNetwork[1].push(data.poaNetwork_current[1])
-  data.poaNetwork[2].push(data.poaNetwork_current[2])
-
-  if (data.myCrypto[0].length > 59) {
-    data.myCrypto = data.myCrypto.map(a => tail(a))
-  }
-
-  data.myCrypto[0].push(data.myCrypto_current[0])
-  data.myCrypto[1].push(data.myCrypto_current[1])
-  data.myCrypto[2].push(data.myCrypto_current[2])
-
-  if (data.upvest[0].length > 59) {
-    data.upvest = data.upvest.map(a => tail(a))
-  }
-
-  data.upvest[0].push(data.upvest_current[0])
-  data.upvest[1].push(data.upvest_current[1])
-  data.upvest[2].push(data.upvest_current[2])
-
+  data.etherscan_current =
+    await getGasInfo(
+      `https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${ETHERSCAN_APIKEY}`,
+      ['FastGasPrice', 'ProposeGasPrice', 'SafeGasPrice'],
+      'result'
+    )
+  data.poaNetwork_current =
+    await getGasInfo(
+      'https://gasprice.poa.network',
+      ['fast', 'standard', 'slow']
+    )
+  data.myCrypto_current =
+    await getGasInfo(
+      'https://gas.mycryptoapi.com/',
+      ['fast', 'standard', 'safeLow']
+    )
+  data.upvest_current =
+    await getGasInfo(
+      'https://fees.upvest.co/estimate_eth_fees',
+      ['fast', 'medium', 'slow'],
+      'estimates'
+    )
+  
+  update('etherscan')
+  update('poaNetwork')
+  update('myCrypto')
+  update('upvest')
+  
   data.timestamp = Date.now()
 }
 
