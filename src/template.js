@@ -79,8 +79,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 .main:hover { transform: rotateY(0); box-shadow: none; transform: scale(1.1) }
 </style>`
 
-const template = (values) => `
-<!DOCTYPE html>
+const template = (values) => `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -197,7 +196,6 @@ ${style}
         document.getElementById("ets_fast").innerText = data.etherscan_current[0] + " Gwei" || "~"
         document.getElementById("ets_average").innerText = data.etherscan_current[1] + " Gwei" || "~"
         document.getElementById("ets_cheap").innerText = data.etherscan_current[2] + " Gwei" || "~"
-        document.getElementById("timer").innerText = "last update: " + new Date(data.etherscan_current[3]).toLocaleTimeString()
 
         document.getElementById("poa_fast").innerText = data.poaNetwork_current[0] + " Gwei" || "~"
         document.getElementById("poa_average").innerText = data.poaNetwork_current[1] + " Gwei" || "~"
@@ -211,6 +209,7 @@ ${style}
         document.getElementById("upv_average").innerText = data.upvest_current[1] + " Gwei" || "~"
         document.getElementById("upv_cheap").innerText = data.upvest_current[2] + " Gwei" || "~"
 
+        document.getElementById("timer").innerText = "last update: " + new Date(data.timestamp).toLocaleTimeString()
       })
   }
   setInterval(getCurrentData,60000)

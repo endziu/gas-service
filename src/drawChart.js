@@ -8,14 +8,21 @@ const config = {
     asciichart.yellow,
     asciichart.green
   ],
-  height: 40
+  height: 15
 }
 
 const draw = async () => {
   const res = await fetch('http://18.192.6.19/history')
   const json = await res.json()
+  console.log('=======etherscan=====')
   console.log(asciichart.plot(json.etherscan, config))
-  console.log(" red: fast\n", "yellow: average\n", "green: cheap\n" )
+  console.log('======poaNetwork=====')
+  console.log(asciichart.plot(json.poaNetwork, config))
+  console.log('=======myCrypto======')
+  console.log(asciichart.plot(json.myCrypto, config))
+  console.log('=======upvest========')
+  console.log(asciichart.plot(json.upvest ,config))
+  console.log('=====================')
 }
 
 draw()

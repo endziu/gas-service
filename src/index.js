@@ -18,7 +18,8 @@ let data = {
   myCrypto: [[],[],[]],
   myCrypto_current: [],
   upvest: [[],[],[]],
-  upvest_current: []
+  upvest_current: [],
+  timestamp: 0
 }
 
 const extractPageData = async (address, selectors) => {
@@ -28,7 +29,6 @@ const extractPageData = async (address, selectors) => {
   const values = selectors.map( id => $(id).parent().text().replace(/\s/g, "") )
                           .map( s => Number(s.replace(/[^0-9.]/g, '')) )
                        // .map( x => {console.log(x);return x;} )
-  values[3] = Date.now()
   return values
 }
 
@@ -40,15 +40,15 @@ const main = async () => {
 
   const poa = await fetch('https://gasprice.poa.network/')
   const poaJson = await poa.json()
-  data.poaNetwork_current = [poaJson.fast, poaJson.standard, poaJson.slow, Date.now()].map(Math.round)
+  data.poaNetwork_current = [poaJson.fast, poaJson.standard, poaJson.slow].map(Math.round)
 
   const myCrypto = await fetch('https://gas.mycryptoapi.com/')
   const myCryptoJson = await myCrypto.json()
-  data.myCrypto_current = [myCryptoJson.fast, myCryptoJson.standard, myCryptoJson.safeLow, Date.now()].map(Math.round)
+  data.myCrypto_current = [myCryptoJson.fast, myCryptoJson.standard, myCryptoJson.safeLow].map(Math.round)
 
   const upvest = await fetch('https://fees.upvest.co/estimate_eth_fees')
   const upvestJson = await upvest.json()
-  data.upvest_current = [upvestJson.estimates.fast, upvestJson.estimates.medium, upvestJson.estimates.slow, Date.now()].map(Math.round)
+  data.upvest_current = [upvestJson.estimates.fast, upvestJson.estimates.medium, upvestJson.estimates.slow].map(Math.round)
 
   if (data.etherscan[0].length > 59) {
     data.etherscan = data.etherscan.map(a => tail(a))
@@ -81,13 +81,15 @@ const main = async () => {
   data.upvest[0].push(data.upvest_current[0])
   data.upvest[1].push(data.upvest_current[1])
   data.upvest[2].push(data.upvest_current[2])
+
+  data.timestamp = Date.now()
 }
 
 main()
 setInterval(main, 60000)
 
 app.get('/', wrap(async (req,res) => {
-  res.send(template([data.etherscan_current, data.poaNetwork_current, data.myCrypto_current, data.upvest_current]))
+  res.send(template([data.etherscan_current, data.poaNetwork_current, data.myCrypto_current, data.upvest_current, Date.now()]))
 }))
 
 app.get('/history', wrap(async (req, res) => {
