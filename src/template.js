@@ -30,6 +30,22 @@ blockquote, q { quotes: none; }
 blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
 table { border-collapse: collapse; border-spacing: 0; }
 
+.grid { display: grid; }
+.grid-flow-col { grid-auto-flow: column; } 
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-rows-1 { grid-template-rows: repeat(1, minmax(0, 1fr)); }
+.grid-rows-2 { grid-template-rows: repeat(2, minmax(0, 1fr)); }
+.grid-rows-3 { grid-template-rows: repeat(3, minmax(0, 1fr)); }
+.grid-rows-4 { grid-template-rows: repeat(4, minmax(0, 1fr)); }
+.gap { grid-gap: 2rem; gap: 2rem; }
+
+@media screen and (min-width: 768px) {
+  .md-grid-cols-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .md-grid-rows-2 { grid-template-rows: repeat(2, minmax(0, 1fr)); }
+}
+
+.max-width { max-width: 64rem; }
 .bg-light-gray { background: #dddfdd; }
 .near-black { color: #222; }
 .fs-1 { font-size: 0.75rem; }
@@ -44,11 +60,13 @@ table { border-collapse: collapse; border-spacing: 0; }
 .m-1 { margin: 0.5rem; }
 .m-2 { margin: 1rem; }
 .m-3 { margin: 2rem; }
+.m-auto { margin: auto; }
 .sans-serif { font-family: Verdana, sans-serif; }
 .border-dashed { border: 1px dashed #a3a7a3; }
 .fitToContent { width: fit-content; }
 .block-center { margin: 1rem auto; }
-.skew { transform: perspective(800px) rotateY(-12deg); }
+.skew-l { transform: perspective(800px) rotateY(-8deg); }
+.skew-r { transform: perspective(800px) rotateY(8deg); }
 .shadow { 
   box-shadow: 
     rgba(0, 0, 0, 0.01) 0px 0px 0px 1px,
@@ -76,25 +94,99 @@ ${style}
     <path d="M13,18 L13,1.99079514 C13,0.898212381 12.1007504,0 10.9914698,0 L3.0085302,0 C1.90195036,0 1,0.891309342 1,1.99079514 L1,18 L0,18 L0,20 L14,20 L14,18 L13,18 Z M3,2 L11,2 L11,8 L3,8 L3,2 Z M13,10 L13.9989566,10 C15.1041023,10 16,10.8982606 16,11.9979131 L16,15.009222 C16,15.5564136 16.4438648,16 17,16 C17.5522847,16 18,15.5490248 18,15.009222 L18,10 L16,8 L16,6 L14,4 L15,3 L20,8 L20,14.9996703 C20,16.6567066 18.6534829,18 17,18 C15.3431458,18 14,16.6534829 14,15 L14,12 L13,12 L13,10 Z" id="Combined-Shape"></path>
   </svg>
 </h1>
-<div class="main bg-gray block-center fitToContent skew transition shadow">
-  <table class="fs-3 sans-serif near-black">
-  <tr>
-    <th class="border-dashed text-center p-2 bold">Speed</th>
-    <th class="border-dashed text-center p-2 bold">Price</th>
-  </tr>
-  <tr>
-    <td class="border-dashed text-center p-2">🚀</td>
-    <td class="border-dashed text-center p-2" id="fast">${values[0]} Gwei</td>
-  </tr>
-  <tr>
-    <td class="border-dashed text-center p-2">🏎️</td>
-    <td class="border-dashed text-center p-2" id="average">${values[1]} Gwei</td>
-  </tr>
-  <tr>
-    <td class="border-dashed text-center p-2">🚊</td>
-    <td class="border-dashed text-center p-2" id="cheap">${values[2]} Gwei</td>
-  </tr>
-  </table>
+<div class="grid grid-flow-col grid-cols-1 md-grid-cols-2 grid-rows-4 md-grid-rows-2 gap-4 p-2 max-width m-auto">
+  <div class="main bg-gray block-center fitToContent skew-r transition shadow">
+    <table class="fs-3 sans-serif near-black">
+    <tr>
+      <th colspan="2" class="border-dashed text-centered p-2 bold">etherscan</th>
+    </tr>
+    <tr>
+      <th class="border-dashed text-center p-2 bold">speed</th>
+      <th class="border-dashed text-center p-2 bold">price</th>
+    </tr>
+    <tr>
+      <td class="border-dashed text-center p-2">🚀</td>
+      <td class="border-dashed text-center p-2" id="ets_fast">${values[0][0]} Gwei</td>
+    </tr>
+    <tr>
+      <td class="border-dashed text-center p-2">🏎️</td>
+      <td class="border-dashed text-center p-2" id="ets_average">${values[0][1]} Gwei</td>
+    </tr>
+    <tr>
+      <td class="border-dashed text-center p-2">🚊</td>
+      <td class="border-dashed text-center p-2" id="ets_cheap">${values[0][2]} Gwei</td>
+    </tr>
+    </table>
+  </div>
+  <div class="main bg-gray block-center fitToContent skew-r transition shadow">
+    <table class="fs-3 sans-serif near-black">
+    <tr>
+      <th colspan="2" class="border-dashed text-centered p-2 bold">POA Network</th>
+    </tr>
+    <tr>
+      <th class="border-dashed text-center p-2 bold">speed</th>
+      <th class="border-dashed text-center p-2 bold">price</th>
+    </tr>
+    <tr>
+      <td class="border-dashed text-center p-2">🚀</td>
+      <td class="border-dashed text-center p-2" id="poa_fast">${values[1][0]} Gwei</td>
+    </tr>
+    <tr>
+      <td class="border-dashed text-center p-2">🏎️</td>
+      <td class="border-dashed text-center p-2" id="poa_average">${values[1][1]} Gwei</td>
+    </tr>
+    <tr>
+      <td class="border-dashed text-center p-2">🚊</td>
+      <td class="border-dashed text-center p-2" id="poa_cheap">${values[1][2]} Gwei</td>
+    </tr>
+    </table>
+  </div>
+  <div class="main bg-gray block-center fitToContent skew-l transition shadow">
+    <table class="fs-3 sans-serif near-black">
+    <tr>
+      <th colspan="2" class="border-dashed text-centered p-2 bold">myCrypto</th>
+    </tr>
+    <tr>
+      <th class="border-dashed text-center p-2 bold">speed</th>
+      <th class="border-dashed text-center p-2 bold">price</th>
+    </tr>
+    <tr>
+      <td class="border-dashed text-center p-2">🚀</td>
+      <td class="border-dashed text-center p-2" id="myc_fast">${values[2][0]} Gwei</td>
+    </tr>
+    <tr>
+      <td class="border-dashed text-center p-2">🏎️</td>
+      <td class="border-dashed text-center p-2" id="myc_average">${values[2][1]} Gwei</td>
+    </tr>
+    <tr>
+      <td class="border-dashed text-center p-2">🚊</td>
+      <td class="border-dashed text-center p-2" id="myc_cheap">${values[2][2]} Gwei</td>
+    </tr>
+    </table>
+  </div>
+  <div class="main bg-gray block-center fitToContent skew-l transition shadow">
+    <table class="fs-3 sans-serif near-black">
+    <tr>
+      <th colspan="2" class="border-dashed text-centered p-2 bold">upvest</th>
+    </tr>
+    <tr>
+      <th class="border-dashed text-center p-2 bold">speed</th>
+      <th class="border-dashed text-center p-2 bold">price</th>
+    </tr>
+    <tr>
+      <td class="border-dashed text-center p-2">🚀</td>
+      <td class="border-dashed text-center p-2" id="upv_fast">${values[3][0]} Gwei</td>
+    </tr>
+    <tr>
+      <td class="border-dashed text-center p-2">🏎️</td>
+      <td class="border-dashed text-center p-2" id="upv_average">${values[3][1]} Gwei</td>
+    </tr>
+    <tr>
+      <td class="border-dashed text-center p-2">🚊</td>
+      <td class="border-dashed text-center p-2" id="upv_cheap">${values[3][2]} Gwei</td>
+    </tr>
+    </table>
+  </div>  
 </div>
 <p id="timer" class="text-center sans-serif fs-1 m-3">last update: just now.</p>
 <script type="text/javascript">
@@ -102,10 +194,23 @@ ${style}
     fetch('http://18.192.6.19/history')
       .then(response => response.json())
       .then(data => {
-        document.getElementById("fast").innerText = data.etherscan_current[0] + " Gwei" || "~"
-        document.getElementById("average").innerText = data.etherscan_current[1] + " Gwei" || "~"
-        document.getElementById("cheap").innerText = data.etherscan_current[2] + " Gwei" || "~"
+        document.getElementById("ets_fast").innerText = data.etherscan_current[0] + " Gwei" || "~"
+        document.getElementById("ets_average").innerText = data.etherscan_current[1] + " Gwei" || "~"
+        document.getElementById("ets_cheap").innerText = data.etherscan_current[2] + " Gwei" || "~"
         document.getElementById("timer").innerText = "last update: " + new Date(data.etherscan_current[3]).toLocaleTimeString()
+
+        document.getElementById("poa_fast").innerText = data.poaNetwork_current[0] + " Gwei" || "~"
+        document.getElementById("poa_average").innerText = data.poaNetwork_current[1] + " Gwei" || "~"
+        document.getElementById("poa_cheap").innerText = data.poaNetwork_current[2] + " Gwei" || "~"
+        
+        document.getElementById("myc_fast").innerText = data.myCrypto_current[0] + " Gwei" || "~"
+        document.getElementById("myc_average").innerText = data.myCrypto_current[1] + " Gwei" || "~"
+        document.getElementById("myc_cheap").innerText = data.myCrypto_current[2] + " Gwei" || "~"
+
+        document.getElementById("upv_fast").innerText = data.upvest_current[0] + " Gwei" || "~"
+        document.getElementById("upv_average").innerText = data.upvest_current[1] + " Gwei" || "~"
+        document.getElementById("upv_cheap").innerText = data.upvest_current[2] + " Gwei" || "~"
+
       })
   }
   setInterval(getCurrentData,60000)
