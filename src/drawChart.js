@@ -14,6 +14,7 @@ const config = {
 const draw = async () => {
   const res = await fetch('http://18.192.6.19/history')
   const json = await res.json()
+  console.clear()
   console.log('=======etherscan=====')
   console.log(asciichart.plot(json.etherscan, config))
   console.log('======poaNetwork=====')
@@ -26,3 +27,4 @@ const draw = async () => {
 }
 
 draw()
+setInterval(draw, 60000)

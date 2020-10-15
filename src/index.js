@@ -43,35 +43,20 @@ const update = (name) => {
 }
 
 const main = async () => {
-  data.etherscan_current =
-    await getGasInfo(
-      `https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${ETHERSCAN_APIKEY}`,
-      ['FastGasPrice', 'ProposeGasPrice', 'SafeGasPrice'],
-      'result'
-    )
-  data.poaNetwork_current =
-    await getGasInfo(
-      'https://gasprice.poa.network',
-      ['fast', 'standard', 'slow']
-    )
-  data.myCrypto_current =
-    await getGasInfo(
-      'https://gas.mycryptoapi.com/',
-      ['fast', 'standard', 'safeLow']
-    )
-  data.upvest_current =
-    await getGasInfo(
-      'https://fees.upvest.co/estimate_eth_fees',
-      ['fast', 'medium', 'slow'],
-      'estimates'
-    )
+  data.etherscan_current = await getGasInfo(
+    `https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${ETHERSCAN_APIKEY}`,
+    ['FastGasPrice', 'ProposeGasPrice', 'SafeGasPrice'],
+    'result'
+  )
+  data.poaNetwork_current = await getGasInfo('https://gasprice.poa.network', ['fast', 'standard', 'slow'])
+  data.myCrypto_current = await getGasInfo('https://gas.mycryptoapi.com/', ['fast', 'standard', 'safeLow'])
+  data.upvest_current = await getGasInfo('https://fees.upvest.co/estimate_eth_fees', ['fast', 'medium', 'slow'],'estimates')
+  data.timestamp = Date.now()
   
   update('etherscan')
   update('poaNetwork')
   update('myCrypto')
   update('upvest')
-  
-  data.timestamp = Date.now()
 }
 
 main()
