@@ -12,7 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "asciichart": "^1.5.25",
-    "cheerio": "^1.0.0-rc.3",
     "compression": "^1.7.4",
     "express": "^4.17.1",
     "node-fetch": "^2.6.1",
