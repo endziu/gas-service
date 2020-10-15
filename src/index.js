@@ -4,7 +4,6 @@ const app = express()
 const compression = require('compression')
 app.use(compression())
 
-const cheerio = require('cheerio')
 const template = require('./template.js')
 const { update, getGasInfo } = require('./utils.js')
 const { ETHERSCAN_APIKEY } = require('../config.js')
@@ -37,7 +36,6 @@ const main = async () => {
   data.myCrypto_current = await getGasInfo(providers.myCrypto, ['fast', 'standard', 'safeLow'])
   data.upvest_current = await getGasInfo(providers.upvest, ['fast', 'medium', 'slow'],'estimates')
   data.timestamp = Date.now()
-  
   Object.keys(providers).map(s => update(s, data))
 }
 
