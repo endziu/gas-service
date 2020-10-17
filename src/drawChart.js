@@ -27,4 +27,4 @@ const draw = async () => {
 }
 
 draw()
-setInterval(draw, 60000)
+//setInterval(draw, 60000)

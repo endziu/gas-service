@@ -42,11 +42,7 @@ const main = async () => {
 main()
 setInterval(main, 60000)
 
-app.get('/', wrap(async (req,res) => {
-  res.send(template([data.etherscan_current, data.poaNetwork_current, data.myCrypto_current, data.upvest_current, Date.now()]))
-}))
-
-app.get('/history', wrap(async (req, res) => {
+app.get('/api', wrap(async (req, res) => {
   res.json(data)
 }))
 
