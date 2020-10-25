@@ -12,7 +12,7 @@ const config = {
 }
 
 const draw = async () => {
-  const res = await fetch('http://18.192.6.19/history')
+  const res = await fetch('http://178.62.249.30:3000/api')
   const json = await res.json()
   console.clear()
   console.log('=======etherscan=====')

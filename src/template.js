@@ -131,7 +131,7 @@ ${style}
   <p id="timer" class="text-center sans-serif fs-1 m-3">last update: just now.</p>
 <script type="text/javascript">
   function getCurrentData() {
-    fetch('http://localhost:3000/api')
+    fetch('/api')
       .then(response => response.json())
       .then(data => {
         document.getElementById("ets_fast").innerText = data.eth_last[0] || "~"
