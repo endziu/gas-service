@@ -134,21 +134,21 @@ ${style}
     fetch('http://localhost:3000/api')
       .then(response => response.json())
       .then(data => {
-        document.getElementById("ets_fast").innerText = data.etherscan_current[0] || "~"
-        document.getElementById("ets_average").innerText = data.etherscan_current[1] || "~"
-        document.getElementById("ets_cheap").innerText = data.etherscan_current[2] || "~"
+        document.getElementById("ets_fast").innerText = data.eth_last[0] || "~"
+        document.getElementById("ets_average").innerText = data.eth_last[1] || "~"
+        document.getElementById("ets_cheap").innerText = data.eth_last[2] || "~"
 
-        document.getElementById("poa_fast").innerText = data.poaNetwork_current[0] || "~"
-        document.getElementById("poa_average").innerText = data.poaNetwork_current[1] || "~"
-        document.getElementById("poa_cheap").innerText = data.poaNetwork_current[2] || "~"
+        document.getElementById("poa_fast").innerText = data.poa_last[0] || "~"
+        document.getElementById("poa_average").innerText = data.poa_last[1] || "~"
+        document.getElementById("poa_cheap").innerText = data.poa_last[2] || "~"
         
-        document.getElementById("myc_fast").innerText = data.myCrypto_current[0] || "~"
-        document.getElementById("myc_average").innerText = data.myCrypto_current[1] || "~"
-        document.getElementById("myc_cheap").innerText = data.myCrypto_current[2] || "~"
+        document.getElementById("myc_fast").innerText = data.cry_last[0] || "~"
+        document.getElementById("myc_average").innerText = data.cry_last[1] || "~"
+        document.getElementById("myc_cheap").innerText = data.cry_last[2] || "~"
 
-        document.getElementById("upv_fast").innerText = data.upvest_current[0] || "~"
-        document.getElementById("upv_average").innerText = data.upvest_current[1] || "~"
-        document.getElementById("upv_cheap").innerText = data.upvest_current[2] || "~"
+        document.getElementById("upv_fast").innerText = data.upv_last[0] || "~"
+        document.getElementById("upv_average").innerText = data.upv_last[1] || "~"
+        document.getElementById("upv_cheap").innerText = data.upv_last[2] || "~"
 
         document.getElementById("timer").innerText = "last update: " + new Date(data.timestamp).toLocaleTimeString()
       })
