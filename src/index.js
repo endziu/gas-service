@@ -9,7 +9,6 @@ const { update, getGasInfo } = require('./utils.js')
 const { ETHERSCAN_APIKEY } = require('../config.js')
 
 const wrap = fn => (...args) => fn(...args).catch(args[2])
-const tail = (arr) => arr.slice(1)
 
 const providers = {
   etherscan: `https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${ETHERSCAN_APIKEY}`,
@@ -41,6 +40,10 @@ const main = async () => {
 
 main()
 setInterval(main, 60000)
+
+app.get('/', wrap(async (req,res) => {
+  res.send(template([data.etherscan_current, data.poaNetwork_current, data.myCrypto_current, data.upvest_current]))
+}))
 
 app.get('/api', wrap(async (req, res) => {
   res.json(data)
