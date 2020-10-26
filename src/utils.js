@@ -21,7 +21,10 @@ function update(name, data) {
   data[name][2].push(data[name+"_last"][2])
 }
 
+const wrap = fn => (...args) => fn(...args).catch(args[2])
+
 module.exports = {
   getGasInfo,
-  update
+  update,
+  wrap
 }

@@ -86,8 +86,8 @@ const template = (values) => `<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Gassssssssssssssssssssssss...</title>
+  ${style}
 </head>
-${style}
 <body class="bg-light-gray">
   <h1 class="text-center m-3">
     <svg viewBox="0 0 20 20" width="48px" stroke="black" stroke-width="1" fill="black" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
