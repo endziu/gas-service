@@ -119,7 +119,10 @@ const template = (values) => `<!DOCTYPE html>
     </div>
   </div>
   <p id="timer" class="text-center sans-serif fs-1 m-3">last update: just now.</p>
-  <button onclick="location.href='/api'" type="button" class="absolute m-2 top-1 right-1">api</button>
+  <a href="/api" >
+    <button class="absolute m-2 top-1 right-1 bold">api</button>
+  </a>
+</body>
 <script type="text/javascript">
   function getCurrentData() {
     fetch('/api')
@@ -146,7 +149,6 @@ const template = (values) => `<!DOCTYPE html>
   }
   setInterval(getCurrentData,60000)
 </script>
-</body>
 </html>
 `
-module.exports = template;
+module.exports = { template };

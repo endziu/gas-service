@@ -1,15 +1,18 @@
-const fetch = require('node-fetch')
 const express = require('express')
-const compression = require('compression')
+const fetch = require('node-fetch')
+
+const helmet = require('helmet')
 const morgan = require('morgan')
+const compression = require('compression')
 
 const server = express()
+server.use(helmet())
 server.use(compression())
 server.use(morgan(':method :url :status :remote-addr :response-time ms'))
 
-const template = require('./template.js')
-const { update, getGasInfo, wrap } = require('./utils.js')
+const { update, getGasInfo } = require('./utils.js')
 const { ETHERSCAN_APIKEY } = require('../config.js')
+const { template } = require('./template.js')
 
 const providers = {
   eth: `https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${ETHERSCAN_APIKEY}`,
@@ -42,13 +45,14 @@ const main = async () => {
 main()
 setInterval(main, 60000)
 
-server.get('/', wrap(async (req,res) => {
-  res.send(template([data.eth_last, data.poa_last, data.cry_last, data.upv_last]))
-}))
+server.get('/', (req, res) => {
+  const {eth_last, poa_last, cry_last, upv_last} = data
+  res.send(template([eth_last, poa_last, cry_last, upv_last]))
+})
 
-server.get('/api', wrap(async (req, res) => {
+server.get('/api', (req, res) => {
   res.json(data)
-}))
+})
 
 server.listen(3000)
 
