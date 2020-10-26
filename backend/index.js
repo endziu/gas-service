@@ -1,12 +1,10 @@
 const express = require('express')
 const fetch = require('node-fetch')
 
-const helmet = require('helmet')
 const morgan = require('morgan')
 const compression = require('compression')
 
 const server = express()
-server.use(helmet())
 server.use(compression())
 server.use(morgan(':method :url :status :remote-addr :response-time ms'))
 

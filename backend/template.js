@@ -119,13 +119,13 @@ const template = (values) => `<!DOCTYPE html>
     </div>
   </div>
   <p id="timer" class="text-center sans-serif fs-1 m-3">last update: just now.</p>
-  <a href="/api" >
+  <a href="http://178.62.249.30:3000/api">
     <button class="absolute m-2 top-1 right-1 bold">api</button>
   </a>
 </body>
 <script type="text/javascript">
   function getCurrentData() {
-    fetch('/api')
+    fetch("http://178.62.249.30:3000/api")
       .then(response => response.json())
       .then(data => {
         document.getElementById("ets_fast").innerText = data.eth_last[0] || "~"
