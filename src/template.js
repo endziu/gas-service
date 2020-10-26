@@ -30,21 +30,6 @@ blockquote, q { quotes: none; }
 blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
 table { border-collapse: collapse; border-spacing: 0; }
 
-.grid { display: grid; }
-.grid-flow-col { grid-auto-flow: column; } 
-.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.grid-rows-1 { grid-template-rows: repeat(1, minmax(0, 1fr)); }
-.grid-rows-2 { grid-template-rows: repeat(2, minmax(0, 1fr)); }
-.grid-rows-3 { grid-template-rows: repeat(3, minmax(0, 1fr)); }
-.grid-rows-4 { grid-template-rows: repeat(4, minmax(0, 1fr)); }
-.gap { grid-gap: 2rem; gap: 2rem; }
-
-@media screen and (min-width: 768px) {
-  .md-grid-cols-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
-  .md-grid-rows-2 { grid-template-rows: repeat(2, minmax(0, 1fr)); }
-}
-
 .max-width { max-width: 96rem; }
 .bg-light-gray { background: #dddfdd; }
 .near-black { color: #222; }
