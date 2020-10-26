@@ -30,6 +30,11 @@ blockquote, q { quotes: none; }
 blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
 table { border-collapse: collapse; border-spacing: 0; }
 
+.absolute { position: absolute; }
+.top-1 { top: 1rem; }
+.bottom-1 { bottom: 1rem; }
+.left-1 { left: 1rem; }
+.right-1 { right: 1rem; }
 .max-width { max-width: 96rem; }
 .bg-light-gray { background: #dddfdd; }
 .near-black { color: #222; }
@@ -114,6 +119,7 @@ const template = (values) => `<!DOCTYPE html>
     </div>
   </div>
   <p id="timer" class="text-center sans-serif fs-1 m-3">last update: just now.</p>
+  <button onclick="location.href='/api'" type="button" class="absolute m-2 top-1 right-1">api</button>
 <script type="text/javascript">
   function getCurrentData() {
     fetch('/api')
