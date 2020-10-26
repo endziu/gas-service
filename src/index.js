@@ -5,7 +5,7 @@ const morgan = require('morgan')
 
 const server = express()
 server.use(compression())
-server.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
+server.use(morgan(':method :url :status :remote-addr :response-time ms'))
 
 const template = require('./template.js')
 const { update, getGasInfo, wrap } = require('./utils.js')

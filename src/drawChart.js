@@ -16,13 +16,13 @@ const draw = async () => {
   const json = await res.json()
   console.clear()
   console.log('=======etherscan=====')
-  console.log(asciichart.plot(json.etherscan, config))
+  console.log(asciichart.plot(json.eth, config))
   console.log('======poaNetwork=====')
-  console.log(asciichart.plot(json.poaNetwork, config))
+  console.log(asciichart.plot(json.poa, config))
   console.log('=======myCrypto======')
-  console.log(asciichart.plot(json.myCrypto, config))
+  console.log(asciichart.plot(json.cry, config))
   console.log('=======upvest========')
-  console.log(asciichart.plot(json.upvest ,config))
+  console.log(asciichart.plot(json.upv ,config))
   console.log('=====================')
 }
 
